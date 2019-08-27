@@ -45,7 +45,7 @@ The weighting of all these loss terms are as follows:
 
 ## Training Procedure
 CoMBInE was trained on 1000 simulated CMB thermal maps created with CAMB. From each map it was taken only the central area, dividing it in 10 square patches 128x128 pixel each. In total the program was thus trained on 10000 images.
-The dataset was divided in Training, Validation and Test set, corresponding respectively to 70%, 15%, 15% of the total dataset. The batch size was chosen to be 3 and each epoch was composed of 10000 steps including 1000 validation steps. Training was furthermore performed using the Adam optimizer in two stages since batch normalization presents an issue for the masked convolutions (as mean and variance is calculated for hole pixels).
+The dataset was divided in Training, Validation and Test set, corresponding respectively to 70%, 15%, 15% of the total dataset. Training was furthermore performed using the Adam optimizer in two stages since batch normalization presents an issue for the masked convolutions (as mean and variance is calculated for hole pixels).
 
 **Stage 1**
 Learning rate of 0.0001 for *n1* epochs with batch normalization enabled in all layers
@@ -62,24 +62,49 @@ The number of epochs *n1*; *n2* to run in each step should be determined based o
 The libraries were essentialy taken from the Git repository https://github.com/MathiasGruber/PConv-Keras where Mathias Gruber tries to reproduce the results obtained in the paper "*Image Inpainting for Irregular Holes Using Partial Convolutions*". They were then modified in order to account for the needs of this research.
 
 *Mask Generator (Random shapes)*
+
 Generates masks made of ellipses, circles and lines in random order, amount and size to cover about 25% of the input 128x128 pixel image.
 
 *Mask Generator 2 (Circle with various radius)*
+
 Generates circular mask of various radius and center position that can cover from 0 to 100% of the input 128x128 pixel image. This masking is very useful to measure the ability of CoMBInE to recontruct the image based on the percentage of area covered.
 
-*PConv UNet Architecture (512*512)*
+*PConv UNet Architecture (512*512): utils/PConv_Unet_model.py*
 
-*PConv UNet Architecture (128*128)*
+short description
+
+*PConv UNet Architecture (128*128): utils/PConv_Unet_model_100.py*
+
+describe main differences
 
 ## Training
+
 **Old Dataset:** *combine_training.py*
+
+The batch size was chosen to be 3 and each epoch was composed of 10000 steps including 1000 validation steps. (carry on description)
+
 **New Dataset:** *combine_training_new.py (work in progress)*
 
-## Analysis
+describe in terms of the work done so far and what will come next
 
-## Important note on Pre-trained weights
+# Loading the model and chunked training process
+
+describe how you can simply run a limited amount of epochs and then just restart the process by updating the model, loading the last one obtained
+
+# Important note on Pre-trained weights
+
 The model must be always at first initialized with the VGG 16 weights from imagenet before loading the new weights obtained after the training and use them to make valid predictions.
 * [Ported VGG 16 weights](https://drive.google.com/open?id=1HOzmKQFljTdKWftEP-kWD7p2paEaeHM0)
+
+## Analysis: Target vs Prediction comparison 
+
+# Mean and Standard Deviation Gross Difference
+
+# RGB and Grey scale Color Distribution
+
+# Final epoch image outputs 
+
+
 
 
 
