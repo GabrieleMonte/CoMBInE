@@ -87,22 +87,22 @@ The batch size was chosen to be 3 and each epoch was composed of 10000 steps inc
 
 describe in terms of the work done so far and what will come next
 
-# Loading the model and chunked training process
+**Loading the model and chunked training process**
 
 describe how you can simply run a limited amount of epochs and then just restart the process by updating the model, loading the last one obtained
 
-# Important note on Pre-trained weights
+**Important note on Pre-trained weights**
 
 The model must be always at first initialized with the VGG 16 weights from imagenet before loading the new weights obtained after the training and use them to make valid predictions.
 * [Ported VGG 16 weights](https://drive.google.com/open?id=1HOzmKQFljTdKWftEP-kWD7p2paEaeHM0)
 
 ## Analysis: Target vs Prediction comparison 
 
-# Mean and Standard Deviation Gross Difference
+**Mean and Standard Deviation Gross Difference**
 
-# RGB and Grey scale Color Distribution
+**RGB and Grey scale Color Distribution**
 
-# Final epoch image outputs 
+**Final epoch image outputs**
 
 
 
