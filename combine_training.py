@@ -29,7 +29,8 @@ from os import makedirs
 mask = SourceFileLoader('Mask_generator.py', join('/content/drive/My Drive/CMB_Inpainting_Oxford/CMB_Inpainting_masking/', 'utils/Mask_generator.py')).load_module()
 unet_100 = SourceFileLoader('PConv_UNet_model_100.py', join('/content/drive/My Drive/CMB_Inpainting_Oxford/CMB_Inpainting_masking/', 'utils/PConv_UNet_model_100.py')).load_module()
 
-#Directories with training, test and validation data (remember each directory needs to contain subfolders reach repesenting the specific class of the images inside
+#Directories with training, test and validation data (remember each directory needs to contain subfolders reach repesenting the specific class of the images inside)
+#100000 images from CMB maps given by 10 different scalar spectral indices ranging from 0.5 to 1.5
 
 TRAIN_DIR = r"/content/drive/My Drive/CMB_Inpainting_Oxford/CMB_Inpainting_masking/CMB_cropped_maps_center_sky/Training"
 TEST_DIR = r"/content/drive/My Drive/CMB_Inpainting_Oxford/CMB_Inpainting_masking/CMB_cropped_maps_center_sky/Test"
