@@ -12,22 +12,14 @@ See paper for more details: "*Image Inpainting for Irregular Holes Using Partial
 * Keras 2.2.4
 * Tensorflow 1.12
 
-# How to use this repository
-bla bla bla 
-
-## Pre-trained weights
-The model must be always at first initialized with the VGG 16 weights from imagenet before loading the new weights obtained after the training, in order to make valid predictions.
-* [Ported VGG 16 weights](https://drive.google.com/open?id=1HOzmKQFljTdKWftEP-kWD7p2paEaeHM0)
-
-
 # Implementation details
 Details of the implementation are in the [paper itself](https://arxiv.org/abs/1804.07723), here a short summary of the main features.
 
 ## Mask Creation
-In the paper they use a technique based on occlusion/dis-occlusion between two consecutive frames in videos for creating random irregular masks - instead I've opted for simply creating a simple mask-generator function which uses OpenCV to draw some random irregular shapes which I then use for masks. Plugging in a new mask generation technique later should not be a problem though, and I think the end results are pretty decent using this method as well.
+The masks we generate are of two kinds and they both used OpenCV to draw their shapes. The first method contained in the script *utils/Mask_generator.py* creates masks composed of ellipses, lines and circle of random size and position. The second method contained in the script *utils/Mask_generator_circle.py* creates circular masks with center and radius that can vary according to one's preference. For simplicity, in the analysis done so far, the circular masks were always centered at the center of the images.
 
 ## Partial Convolution Layer
-A key element in this implementation is the partial convolutional layer. Basically, given the convolutional filter **W** and the corresponding bias *b*, the following partial convolution is applied instead of a normal convolution:
+The key element in this implementation is the partial convolutional layer. Basically, given the convolutional filter **W** and the corresponding bias *b*, the following partial convolution is applied instead of a normal convolution:
 
 <img src='./data/images/eq1.PNG' />
 
@@ -60,3 +52,25 @@ Learning rate of 0.0001 for 50 epochs with batch normalization enabled in all la
 
 **Stage 2**
 Learning rate of 0.00005 for 50 epochs where batch normalization in all encoding layers is disabled.
+
+# How to use this repository
+
+
+## Libraries
+*Mask Generator (Random shapes)*
+
+*Mask Generator 2 (Circle with various radius)*
+
+*PConv UNet Architecture (128*128)*
+
+*PConv UNet Architecture (512*512)*
+
+## Training
+
+## Analysis
+## Pre-trained weights
+The model must be always at first initialized with the VGG 16 weights from imagenet before loading the new weights obtained after the training, in order to make valid predictions.
+* [Ported VGG 16 weights](https://drive.google.com/open?id=1HOzmKQFljTdKWftEP-kWD7p2paEaeHM0)
+
+
+
