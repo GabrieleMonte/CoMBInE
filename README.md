@@ -1,5 +1,5 @@
 # CoMBInE
-\textit{Cosmic Microwave Inpainting Experiment}
+*Cosmic Microwave Inpainting Experiment*
 
 CoMBInE is a machine learning program that trhrough inpainting aims to reconstruct patches of the Cosmic Microwave Background thermals maps, as new nowel approach to eliminate/limit the effect of the foreground.
 
