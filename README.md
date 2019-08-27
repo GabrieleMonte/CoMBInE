@@ -1,9 +1,8 @@
 # CoMBInE
-Cosmic Microwave Inpainting Experiment
+\textit{Cosmic Microwave Inpainting Experiment}
 
 CoMBInE is a machine learning program that trhrough inpainting aims to reconstruct patches of the Cosmic Microwave Background thermals maps, as new nowel approach to eliminate/limit the effect of the foreground.
 
-# Partial Convolutions for Image Inpainting using Keras
 In this program we used the innovative method developed by a group of researches from NVIDIA corporation which uses Partial convolutional layers in place of the traditional convolutional layers. Traditional CNN filter responses are conditioned on both valid pixels as well as the substitute values in the masked holes which may lead to color discrepancy and blurriness. The partial convolutions are constructed such that, given a binary mask, the results depend only on the non-hole regions at every layer. Given sufficient layers of successive updates and with the addition of the automatic mask update step, which removes any masking where the partial convolution was able to operate on an unmasked value, even the largest masked holes will eventually shrink away, leaving only valid responses in the feature map.
 See paper for more details: "*Image Inpainting for Irregular Holes Using Partial Convolutions*", https://arxiv.org/abs/1804.07723. 
 
@@ -14,25 +13,15 @@ See paper for more details: "*Image Inpainting for Irregular Holes Using Partial
 * Tensorflow 1.12
 
 # How to use this repository
-The easiest way to try a few predictions with this algorithm is to go to [www.fixmyphoto.ai](https://www.fixmyphoto.ai/), where I've deployed it on a serverless React application with AWS lambda functions handling inference.
-
-If you want to dig into the code, the primary implementations of the new `PConv2D` keras layer as well as the `UNet`-like architecture using these partial convolutional layers can be found in `libs/pconv_layer.py` and `libs/pconv_model.py`, respectively - this is where the bulk of the implementation can be found. Beyond this I've set up four jupyter notebooks, which details the several steps I went through while implementing the network, namely:
-
-Step 1: Creating random irregular masks<br />
-Step 2: Implementing and testing the implementation of the `PConv2D` layer<br />
-Step 3: Implementing and testing the UNet architecture with `PConv2D` layers<br />
-Step 4: Training & testing the final architecture on ImageNet<br />
-Step 5: Simplistic attempt at predicting arbitrary image sizes through image chunking
+bla bla bla 
 
 ## Pre-trained weights
 The model must be always at first initialized with the VGG 16 weights from imagenet before loading the new weights obtained after the training, in order to make valid predictions.
 * [Ported VGG 16 weights](https://drive.google.com/open?id=1HOzmKQFljTdKWftEP-kWD7p2paEaeHM0)
 
-## Training on your own dataset
-You can either go directly to [step 4 notebook](https://github.com/MathiasGruber/PConv-Keras/blob/master/notebooks/Step4%20-%20Imagenet%20Training.ipynb), or alternatively use the CLI (make sure to download the converted VGG16 weights):
 
 # Implementation details
-Details of the implementation are in the [paper itself](https://arxiv.org/abs/1804.07723), however I'll try to summarize some details here.
+Details of the implementation are in the [paper itself](https://arxiv.org/abs/1804.07723), here a short summary of the main features.
 
 ## Mask Creation
 In the paper they use a technique based on occlusion/dis-occlusion between two consecutive frames in videos for creating random irregular masks - instead I've opted for simply creating a simple mask-generator function which uses OpenCV to draw some random irregular shapes which I then use for masks. Plugging in a new mask generation technique later should not be a problem though, and I think the end results are pretty decent using this method as well.
