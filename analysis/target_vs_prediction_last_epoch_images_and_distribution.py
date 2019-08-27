@@ -19,6 +19,7 @@ import fnmatch
 from scipy.stats import norm
 
 #import libraries from GitHub
+##NOTE: this command is only for Colaboratory notebooks, generally you can just import these libraries as any other common one by doing <import 'path of the library'>##
 from importlib.machinery import SourceFileLoader
 mask = SourceFileLoader('Mask_generator.py', join('/content/drive/My Drive/CMB_Inpainting_Oxford/CMB_Inpainting_masking/', 'utils/Mask_generator.py')).load_module()
 mask2 = SourceFileLoader('Mask_generator2.py', join('/content/drive/My Drive/CMB_Inpainting_Oxford/CMB_Inpainting_masking/', 'utils/Mask_generator2.py')).load_module()
