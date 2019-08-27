@@ -62,12 +62,14 @@ The number of epochs *n1*; *n2* to run in each step should be determined based o
 The libraries were essentialy taken from the Git repository https://github.com/MathiasGruber/PConv-Keras where Mathias Gruber tries to reproduce the results obtained in the paper "*Image Inpainting for Irregular Holes Using Partial Convolutions*". They were then modified in order to account for the needs of this research.
 
 *Mask Generator (Random shapes)*
+Generates masks made of ellipses, circles and lines in random order, amount and size to cover about 25% of the input 128x128 pixel image.
 
 *Mask Generator 2 (Circle with various radius)*
-
-*PConv UNet Architecture (128*128)*
+Generates circular mask of various radius and center position that can cover from 0 to 100% of the input 128x128 pixel image. This masking is very useful to measure the ability of CoMBInE to recontruct the image based on the percentage of area covered.
 
 *PConv UNet Architecture (512*512)*
+
+*PConv UNet Architecture (128*128)*
 
 ## Training
 **Old Dataset:** *combine_training.py*
