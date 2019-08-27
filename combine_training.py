@@ -22,6 +22,7 @@ from IPython.display import clear_output
 plt.ioff()
 
 #import libraries from GitHub
+##NOTE: this command is only for Colaboratory notebooks, generally you can just import these libraries as any other common one by doing <import 'path of the library'>##
 from importlib.machinery import SourceFileLoader
 from os.path import join
 from os import makedirs
