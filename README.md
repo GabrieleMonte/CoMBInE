@@ -120,7 +120,7 @@ where **R**, **G**, **B** respectively represent the red, green and blue color d
 
 This section refers to the last analysis script *Update target_vs_prediction_last_epoch_images_and_distribution.py* which simply compares the perdiction at the last epoch with a target image, randomly chosen from the validation set, in term of the color distribution and also serves to visualize such comparison by plotting side by side and in this order target, predicted and absolute difference image. Below an example of our results taken from the *images_and_plots/* folder where you can find also all the other plots and figures we have produced this far.
 
-<img src='./images_and_plots/read_me_equations/grey_scale.png' />
+<img src='./images_and_plots/plot_target_pred_diff.jpg' />
 
 **NOTE:** this analysis method only refers to the **old** dataset. The scripts for the new datasets have not been made yet but they will simply result in small modifications of the current scripts to account for the larger dataset and the differentiation in classes based on the value of **SSI**.
 
