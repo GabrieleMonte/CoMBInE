@@ -94,17 +94,37 @@ Recall that, given the structure of CoMBInE, there is no need to worry about det
 
 **Important note on Pre-trained weights**
 
-The model must be always at first initialized with the VGG 16 weights from imagenet before loading the new weights obtained after the training and use them to make valid predictions.
+The model must be always at first initialized with the VGG 16 weights from ImageNet before loading the new weights obtained after the training and use them to make valid predictions. These pre-trained VGG16 weights are only useful to us in order to classify our images in terms of their respective value of ***SSI***. The VGG16 model for Keras is the Keras model of the 16-layer network used by the VGG team in the ILSVRC-2014 competition which has the capability of classifying objects in photographs. The model was trained on ImageNet which is a huge database of millions of images, thus there is no point in creating our own model or retraining the VGG16 model on our dataset which is much simpler than that of ImageNet. Luckily we can just used their pre-trained weights which are available for free and can be found at this link:
 * [Ported VGG 16 weights](https://drive.google.com/open?id=1HOzmKQFljTdKWftEP-kWD7p2paEaeHM0)
+
+For more information on the VGG16 model refer to this paper: https://arxiv.org/abs/1409.1556
 
 ## Analysis: Target vs Prediction comparison 
 
-**Mean and Standard Deviation Gross Difference**
+To determine the efficency of CoMBInE in reconstructing the CMB map square chunks we established a set of parameters that could help us both analitically and visually understanding the performance of the program.
+
+**Mean and Standard Deviation Gross Difference:**
+
+The first parameter defined is the "gross" mean of the difference between predicted and target image. By gross mean we refer to the total mean of the image of the absolute value of the difference taken within the 3 values of R,G and B color for all pixels in the image. Theoretically, for a perfect recontruction, this value should be always zero. The second parameter defined, which relates to this mean difference, is its standard deviation of all the pixels from the image of the absolute difference. Again, for a perfect reconstruction, this value also tends to zero. To get a more detailed idea wheter or not the mean difference computed is actually small or not, we also defined the mean percentage difference where the percentage is calculated with  respect to the target. 
+The analysis python scripts that refer to these parameters are *target_vs_prediction_random-images_gross_difference.py* and *target_vs_prediction_vs_mask-size_gross_difference.py*. In the first one we analyze the predictions after each epoch for 50 random images taken from the  validation set masked with 1 mask made of random shapes. In the second one we analyze the predictions after each epoch for 1 image, given possible masking sizes and shapes (specifically we use 1 random shape mask and 12 centered circular masks with radius ranging from 5 to 65).
 
 **RGB and Grey scale Color Distribution**
 
+In this analysis the distribution for each color (red, green and blue) in the predicted image is individually plotted and compared with the target distributions. The parameters used for the comparison are the mean and standard deviation of the Gaussian fitted to each distribution. This same analysis is then repeated for the grey scale which is simply defined as:
+
+<img src='./images_and_plots/read_me_equations/grey_scale.png' />
+
+where **R**, **G**, **B** respectively represent the red, green and blue color distribution. In *target_vs_prediction_color-distribution.py* we analyze the predictions after each epoch for 1 image, randomly chosen from the validation set masked with 1 mask of random shape. 
+
 **Final epoch image outputs**
 
+This section refers to the last analysis script *Update target_vs_prediction_last_epoch_images_and_distribution.py* which simply compares the perdiction at the last epoch with a target image, randomly chosen from the validation set, in term of the color distribution and also serves to visualize such comparison by plotting side by side and in this order target, predicted and absolute difference image. Below an example of our results taken from the *images_and_plots/* folder where you can find also all the other plots and figures we have produced this far.
+
+<img src='./images_and_plots/read_me_equations/grey_scale.png' />
+
+**NOTE:** this analysis method only refers to the **old** dataset. The scripts for the new datasets have not been made yet but they will simply result in small modifications of the current scripts to account for the larger dataset and the differentiation in classes based on the value of **SSI**.
+
+## Future Work
 
 
 
