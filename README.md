@@ -1,7 +1,7 @@
 # CoMBInE
 *Cosmic Microwave Inpainting Experiment*
 
-CoMBInE is a machine learning program that trhrough inpainting aims to reconstruct patches of the Cosmic Microwave Background thermals maps, as new nowel approach to eliminate/limit the effect of the foreground.
+CoMBInE is a machine learning program that through inpainting aims to reconstruct patches of the Cosmic Microwave Background thermals maps, as new nowel approach to eliminate/limit the effect of the foreground.
 
 In this program we used the innovative method developed by a group of researches from NVIDIA corporation which uses Partial convolutional layers in place of the traditional convolutional layers. Traditional CNN filter responses are conditioned on both valid pixels as well as the substitute values in the masked holes which may lead to color discrepancy and blurriness. The partial convolutions are constructed such that, given a binary mask, the results depend only on the non-hole regions at every layer. Given sufficient layers of successive updates and with the addition of the automatic mask update step, which removes any masking where the partial convolution was able to operate on an unmasked value, even the largest masked holes will eventually shrink away, leaving only valid responses in the feature map.
 See paper for more details: "*Image Inpainting for Irregular Holes Using Partial Convolutions*", https://arxiv.org/abs/1804.07723. 
@@ -47,6 +47,9 @@ The weighting of all these loss terms are as follows:
 CoMBInE was trained on 1000 simulated CMB thermal maps created with CAMB. From each map it was taken only the central area, dividing it in 10 square patches 128x128 pixel each. In total the program was thus trained on 10000 images.
 The dataset was divided in Training, Validation and Test set, corresponding respectively to 70%, 15%, 15% of the total dataset. Training was furthermore performed using the Adam optimizer in two stages since batch normalization presents an issue for the masked convolutions (as mean and variance is calculated for hole pixels).
 
+**Stage 0** (*combine_initial_weight_computation.py*)
+Train the program using only 1 image as both training, test and validation set for 10 epochs with 2000 steps each. The goal of this state is to obtain the weights that will be used to initialize stage 1.
+
 **Stage 1**
 Learning rate of 0.0001 for *n1* epochs with batch normalization enabled in all layers
 
@@ -78,6 +81,7 @@ This model takes in 512x512 pixel images. The coding and decoding stages of the 
 This model takes in 128x128 pixel images. It was mainly constructed for purposes of time optimization, since with 512x512 pixel images the training was very slow an it is what was used in this research. The coding and decoding stages follow the same structure in terms of filters and kernel sizes but the number of layers is reduced to 7.
 
 ## Training
+
 
 **Old Dataset:** *combine_training.py*
 
@@ -126,6 +130,18 @@ This section refers to the last analysis script *Update target_vs_prediction_las
 
 ## Future Work
 
+**New Dataset Training and Analysis**
 
+In regards to the training part, it needs to be verified wheter or not changing batch size could optimize the learning of CoMBInE. After the conclusion of the training, the analysis, as described above, will be repeated also comparing wheter or not there are non neglegible differences in the learning and the predictions betweeen images from different classes
 
+**Computing Power Spectra**
 
+The problematic with computing power spectra from RGB images are several. First of all there is a dimensional problem since each pixel is composed by a 3 dimensional array corresponding to the values of red, green and blue. Thus we need to reduce the RGB images to Grey scale. This is rather simple but unfortunately does not fix the full problem. Indeed any image repsentation of the CMB map (like the ones simulated by CAMB) do not encode all the information about the temperatures at each point in the sky. Indeed when one simulates CMB maps for visualization purposes, a limit is set on the range of temperatures such that *T* can only vary within *T_min* and *T_max*. This implies that each point at a higher temperature than *T_max* is assigned the same color as those at excactly *T_max*. The effect on the power spectrum should not be that significant but it's definetely something to take into account as it would schew the final results and eventually **the goal of CoMBInE is to compute power spectra from actual CMB data so we need to be precise**. The strategy is then twofold, on one side we can compare these schewed power spectra of the predicted and target image as another way to test to what extent CoMBInE is able to reproduce CMB maps. On the other side we need to change the architecture of the program such that it can intake 2 dimensional arrays where to each pixel would correspond 1 number proportional to the temperature and not limited to the any range. This requires some work as all the convolutional layers were build to intake images with dimensions (128x128x3) where the filter matrices had specific kernel dimensions which change accordingly based on the initial image size.
+
+**Validate our results with real data from the CMB temperature map**
+
+This would be the final stage of the project as eventually we would like to use CoMBInE to fill in the holes of the patches of the sky where the effect of the foreground is not neglegible, to then compute a Power Spectrum of the entire CMB map.
+
+**optimize, optimize, optimize!**
+
+Whatever results we obtain we could probably do better by changing some parameters of or some parts of the architecture
