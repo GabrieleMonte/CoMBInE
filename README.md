@@ -69,27 +69,28 @@ Generates masks made of ellipses, circles and lines in random order, amount and 
 
 Generates circular mask of various radius and center position that can cover from 0 to 100% of the input 128x128 pixel image. This masking is very useful to measure the ability of CoMBInE to recontruct the image based on the percentage of area covered.
 
-*PConv UNet Architecture (512*512): utils/PConv_Unet_model.py*
+*PConv UNet Architecture (512x512): utils/PConv_Unet_model.py*
 
-short description
+This model takes in 512x512 pixel images. The coding and decoding stages of the UNet architecture are made of 8 layers. In the coding phase the number of filters in each convolution steadily increases from 64 to 512 meanwhile the kernel size decreases from 7 to 3. In the decoding stage, the kernel size is kept constant at 3 meanwhile the number of filters in each convolution decreases steadily until the final concatenation with the input image where it is equal to 3.
 
-*PConv UNet Architecture (128*128): utils/PConv_Unet_model_100.py*
+*PConv UNet Architecture (128x128): utils/PConv_Unet_model_100.py*
 
-describe main differences
+This model takes in 128x128 pixel images. It was mainly constructed for purposes of time optimization, since with 512x512 pixel images the training was very slow an it is what was used in this research. The coding and decoding stages follow the same structure in terms of filters and kernel sizes but the number of layers is reduced to 7.
 
 ## Training
 
 **Old Dataset:** *combine_training.py*
 
-The batch size was chosen to be 3 and each epoch was composed of 10000 steps including 1000 validation steps. (carry on description)
+The batch size was chosen to be 3 and each epoch was composed of 10000 steps including 1000 validation steps. In total CoMBInE was trained for 42 epochs, respectively 25 epochs for the first phase and 17 for the second phase. The learning rate was very steep during the first 20 epochs and then levelled off with the validation loss that specifically stopped to monotonically decrease. For more details see picture */images_and_plots/CMB_inpainting_percent_plot2_phase1_trainset_10000-2.jpg*
 
 **New Dataset:** *combine_training_new.py (work in progress)*
 
-describe in terms of the work done so far and what will come next
+The images are divided in 10 classes corresponding to the 10 different values of the scalar spectral index ( ***SSI***) used. All spectral indeces were chosen between 0.5 and 1.5. More specifically the values of ***SSI*** are [0.5;0.7;0.9;0.95;1;1.05;1.1;1.3;1.5]. The range is more dense around 0.95 which corresponds to the value observationally better contrained. Indeed, this choice was made in order to achieve better results for CMB maps with parameters closer to the one observationally measured (by better results we mean enhancing the ability of CoMBInE, for ***SSI*** near 0.95, to distinguish maps in regard to the ***SSI*** they belong to).
+The batch size was increased to 16 and the number of steps per epoch and the validation steps were changed accordingly to that and the total new number of images in the dataset (specifically 6250 steps and 625 validation steps). The motivation for this increase in the batch size is to ensure that CoMBInE passes minimum through one image per class before updating its weights. That said the batch size is still not definite, the program has not yet finished its training so the total number of epochs is still unknowned and some of the parameters may be tuned in the meantime.
 
 **Loading the model and chunked training process**
 
-describe how you can simply run a limited amount of epochs and then just restart the process by updating the model, loading the last one obtained
+Recall that, given the structure of CoMBInE, there is no need to worry about determining a total number of epochs to run for the training. Indeed we can simply run it for a small number of epochs and then based on the improvement in the total and validation loss, restart the training uploading the last updated weights and follow the same procedure.
 
 **Important note on Pre-trained weights**
 
